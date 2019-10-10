@@ -12,7 +12,7 @@ class Entity:
 
 class Ship(Entity):
     def __init__(self, x, y, speed, owned, stock, orientation):
-        super.__init__(x, y)
+        super().__init__(x, y)
         self.speed = speed
         self.owned = owned
         self.stock = stock
@@ -24,7 +24,7 @@ class Ship(Entity):
     def closestEntity(self, entities):
         distance = 9999
         closest_entity = None
-        for e in entity:
+        for e in entities:
             temp_distance = self.manhattanDistance(e)
             if temp_distance < distance:
                 distance = temp_distance
@@ -35,7 +35,7 @@ class Ship(Entity):
 
 class Barrel(Entity):
     def __init__(self, x, y, amount):
-        super.__init__(x, y)
+        super().__init__(x, y)
         self.amount = amount
 
 class Mine(Entity):
