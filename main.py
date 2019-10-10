@@ -5,63 +5,41 @@ import random
 # Auto-generated code below aims at helping you parse
 # the standard input according to the problem statement.
 
-class Ship:
-    def __init__(self,x,y, speed, owned, stock, orientation):
+class Entity:
+    def __init__(self, x, y):
         self.x = x
         self.y = y
+
+class Ship(Entity):
+    def __init__(self, x, y, speed, owned, stock, orientation):
+        super.__init__(x, y)
         self.speed = speed
         self.owned = owned
         self.stock = stock
         self.orientation = orientation
 
-    def closestShip(self,ships):
-        distance = 9999
-        closest_ship = None
-        for ship in ships:
-            temp_distance = self.manhattanDistance(ship)
-            if temp_distance < distance:
-                distance = temp_distance
-                closest_ship = ship
-        return closest_ship
-
-    def manhattanDistance(self,entity):
+    def manhattanDistance(self, entity):
         return abs(entity.x - self.x) + abs(entity.y - self.y)
 
-    def closestBarrel(self,barrels):
+    def closestEntity(self, entities):
         distance = 9999
-        closest_barrel = None
-        for barrel in barrels:
-            temp_distance = self.manhattanDistance(barrel)
+        closest_entity = None
+        for e in entity:
+            temp_distance = self.manhattanDistance(e)
             if temp_distance < distance:
                 distance = temp_distance
-                closest_barrel = barrel
+                closest_entity = e
         if distance > 10:
-            closest_barrel = None
-        return closest_barrel
+            closest_entity = None
+        return closest_entity
 
-    def closestMine(self,mines):
-        distance = 9999
-        closest_mine = None
-        for mine in mines:
-            temp_distance = self.manhattanDistance(mine)
-            if temp_distance < distance:
-                distance = temp_distance
-                closest_mine = mine
-        if distance > 10:
-            closest_mine = None
-        return closest_mine
-
-
-class Barrel:
-    def __init__(self,x,y,amount):
-        self.x = x
-        self.y = y
+class Barrel(Entity):
+    def __init__(self, x, y, amount):
+        super.__init__(x, y)
         self.amount = amount
 
-class Mine:
-    def __init__(self,x,y):
-        self.x = x
-        self.y = y
+class Mine(Entity):
+    pass
 
 # game loop
 while True:
@@ -91,9 +69,9 @@ while True:
             mines.append(Mine(x,y))
 
     for i in range(my_ship_count):
-        closest_mine = my_ships[i].closestMine(mines)
-        closest_ship = my_ships[i].closestShip(their_ships)
-        closest_barrel = my_ships[i].closestBarrel(barrels)
+        closest_mine = my_ships[i].closestEntity(mines)
+        closest_ship = my_ships[i].closestEntity(their_ships)
+        closest_barrel = my_ships[i].closestEntity(barrels)
 
         if(random.randint(0,4) != 0) and closest_barrel != None:
             print("MOVE " + str(closest_barrel.x)+ " " + str(closest_barrel.y))
